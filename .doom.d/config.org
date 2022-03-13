@@ -1,0 +1,97 @@
+#+TITLE: Jan's Doom Emacs Configuration
+#+AUTHOR: Jan Hendron (GitHub rhbhendron)
+
+* UI
+** Font TODO Add some more fonts
+I will set my font to Iosevka, cause I really really like it
+#+begin_src emacs-lisp
+(setq doom-font (font-spec :family "Iosevka" :size 15 :weight 'medium))
+#+end_src
+
+** Line numbers
+#+begin_src emacs-lisp
+(setq display-line-numbers 'relative)
+#+end_src
+* Setting some ground work
+** Name and email
+#+begin_src emacs-lisp
+(setq user-full-name "Jan Hendron"
+      user-mail-address "rhbhendron@gmail.com")
+#+end_src
+
+* Languages
+** Org
+I added [[https://github.com/daviwil/][David Wilson's]] zen mode function
+#+begin_src emacs-lisp
+(defun rhb/org-mode-setup ()
+  (variable-pitch-mode 1)
+  (auto-fill-mode 0)
+  (visual-line-mode 1)
+  (setq evil-auto-indent nil))
+#+end_src
+Here are all the configurations for my personal Org-mode setup. I find that the
+=org-structure-template-alist= variable does not really work well within
+Doom Emacs.
+#+begin_src emacs-lisp
+(with-eval-after-load 'org
+  (require 'org-tempo)
+
+  (add-to-list 'org-structure-template-alist '("sh" . "src shell"))
+  (add-to-list 'org-structure-template-alist '("el" . "src emacs-lisp")))
+
+(after! org
+  (setq org-directory "~/Org"
+        org-ellipsis " ▾"
+        org-agenda-files '("~/Org/Life.org"
+                           "~/Org/Programming.org"
+                           "~/College/CollegePlans.org"))
+  (dolist (face '((org-level-1 . 1.2)
+                  (org-level-2 . 1.1)
+                  (org-level-3 . 1.05)
+                  (org-level-4 . 1.0)
+                  (org-level-5 . 1.1)
+                  (org-level-6 . 1.1)
+                  (org-level-7 . 1.1)
+                  (org-level-8 . 1.1)))
+    (custom-theme-set-faces
+     'user
+     '(org-block ((t (:inherit fixed-pitch))))))
+
+
+#+end_src
+
+I want Org Mode to be a lot more like a regular editor, not a code editor, so
+I remove the line numbers
+#+begin_src emacs-lisp
+(add-hook 'org-mode-hook (lambda () (display-line-numbers-mode 0)))
+#+end_src
+*** Bullets
+This adds the nice header bullets with =org-bullets=
+#+begin_src emacs-lisp
+(use-package! org-bullets
+  :hook (org-mode . org-bullets-mode)
+  :custom
+  (org-bullets-bullet-list '("◉" "○" "●" "○" "●" "○" "●")))
+#+end_src
+* Tools
+** =restart-emacs=
+This adds the =restart-emacs= package to my Doom Emacs configuration. This
+allows me to restart an Emacs server, in case I need to reload configurations
+or what not
+#+begin_src emacs-lisp
+(use-package! restart-emacs
+  :init
+  (setq restart-emacs-restore-frames t))
+
+(after! restart-emacs
+  (map! :leader
+        :desc "Restart the current Emacs server"
+        "r R" #'restart-emacs))
+#+end_src
+** =no-littering=
+#+begin_src emacs-lisp
+(use-package! no-littering)
+
+(setq auto-save-file-name-transforms
+      `((".*" ,(no-littering-expand-var-file-name "auto-save") t)))
+#+end_src
