@@ -55,9 +55,7 @@ Doom Emacs.
                   (org-level-8 . 1.1)))
     (custom-theme-set-faces
      'user
-     '(org-block ((t (:inherit fixed-pitch))))))
-
-
+     '(org-block ((t (:inherit fixed-pitch)))))))
 #+end_src
 
 I want Org Mode to be a lot more like a regular editor, not a code editor, so

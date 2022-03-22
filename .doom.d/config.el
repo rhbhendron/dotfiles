@@ -31,22 +31,11 @@
                   (org-level-6 . 1.1)
                   (org-level-7 . 1.1)
                   (org-level-8 . 1.1)))
-    (set-face-attribute (car face) nil :font "Iosevka Aile" :weight 'medium :height (cdr face)))
-    ;; Ensure that anything that should be fixed-pitch in Org files appears that way
-    (set-face-attribute 'org-block nil :foreground nil :inherit 'fixed-pitch)
-    (set-face-attribute 'org-table nil  :inherit 'fixed-pitch)
-    (set-face-attribute 'org-formula nil  :inherit 'fixed-pitch)
-    (set-face-attribute 'org-code nil   :inherit '(shadow fixed-pitch))
-    (set-face-attribute 'org-verbatim nil :inherit '(shadow fixed-pitch))
-    (set-face-attribute 'org-special-keyword nil :inherit '(font-lock-comment-face fixed-pitch))
-    (set-face-attribute 'org-meta-line nil :inherit '(font-lock-comment-face fixed-pitch))
-    (set-face-attribute 'org-checkbox nil :inherit 'fixed-pitch)
+    (custom-theme-set-faces
+     'user
+     '(org-block ((t (:inherit fixed-pitch)))))))
 
-    ;; Get rid of the background on column views
-    (set-face-attribute 'org-column nil :background nil)
-    (set-face-attribute 'org-column-title nil :background nil))
-
-(add-hook 'org-mode-hook (lambda () (display-line-numbers-mode 0) (zen-mode)))
+(add-hook 'org-mode-hook (lambda () (display-line-numbers-mode 0)))
 
 (use-package! org-bullets
   :hook (org-mode . org-bullets-mode)
