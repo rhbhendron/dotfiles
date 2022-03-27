@@ -51,3 +51,8 @@
 (package! restart-emacs)
 (package! org-bullets)
 (package! no-littering)
+(package! dashboard)
+(package! doom-dashboard :disable t)
+(unpin! org-roam)
+(package! websocket)
+(package! org-roam-ui)
