@@ -56,3 +56,4 @@
 (unpin! org-roam)
 (package! websocket)
 (package! org-roam-ui)
+(package! guix)
