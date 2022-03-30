@@ -1,0 +1,142 @@
+#+TITLE: Jan's Doom Emacs Configuration
+#+AUTHOR: Jan Hendron (GitHub rhbhendron)
+
+* UI
+** Make sure start with dashboard
+Because I use the Emacs daemon on startup, I have to ensure that it will pick the dashboard to start
+with, so I add this
+#+begin_src emacs-lisp :tangle yes
+(setq initial-buffer-choice (lambda () (get-buffer "*dashboard*")))
+#+end_src
+** Font TODO Add some more fonts
+I will set my font to Iosevka, cause I really really like it
+#+begin_src emacs-lisp :tangle yes
+(setq doom-font (font-spec :family "Iosevka" :size 15 :weight 'medium))
+(setq doom-variable-pitch-font (font-spec :family "Iosevka Aile" :size 15 :weight 'medium))
+#+end_src
+
+** Line numbers
+#+begin_src emacs-lisp :tangle yes
+(setq display-line-numbers 'relative)
+#+end_src
+* Setting some ground work
+** Name and email
+#+begin_src emacs-lisp :tangle yes
+(setq user-full-name "Jan Hendron"
+      user-mail-address "rhbhendron@gmail.com")
+#+end_src
+
+* Languages
+** Org
+I added [[https://github.com/daviwil/][David Wilson's]] zen mode function
+#+begin_src emacs-lisp :tangle yes
+(defun rhb/org-mode-setup ()
+  (variable-pitch-mode 1)
+  (auto-fill-mode 0)
+  (visual-line-mode 1)
+  (setq evil-auto-indent nil))
+#+end_src
+Here are all the configurations for my personal Org-mode setup. I find that the
+=org-structure-template-alist= variable does not really work well within
+Doom Emacs.
+#+begin_src emacs-lisp :tangle yes
+(with-eval-after-load 'org
+  (require 'org-tempo)
+
+  (add-to-list 'org-structure-template-alist '("sh" . "src shell"))
+  (add-to-list 'org-structure-template-alist '("el" . "src emacs-lisp")))
+
+(after! org
+  (setq org-directory "~/Org"
+        org-ellipsis " ▾"
+        org-agenda-files '("~/Org/Life.org"
+                           "~/Org/Programming.org"
+                           "~/College/CollegePlans.org")
+        org-todo-keywords '((sequence "TODO(t)" "NEXT(n)" "|" "DONE(d)")
+                            (sequence "UNIT(u)" "QUIX(q)" "CPROJ(cp)" "CTODO(ct)" "STUDY(cs)" "|" "CDONE(cd)" "CKILL(ck)")
+                            (sequence "PTODO(pt)" "PSTART(ps)" "|" "PDONE(pd)" "PKILL(pk)"))
+        org-roam-directory "~/College")
+  (dolist (face '((org-level-1 . 1.2)
+                  (org-level-2 . 1.1)
+                  (org-level-3 . 1.05)
+                  (org-level-4 . 1.0)
+                  (org-level-5 . 1.1)
+                  (org-level-6 . 1.1)
+                  (org-level-7 . 1.1)
+                  (org-level-8 . 1.1)))
+    (set-face-attribute (car face) nil :font "Iosevka Aile" :weight 'regular :height (cdr face))))
+#+end_src
+
+I want Org Mode to be a lot more like a regular editor, not a code editor, so
+I remove the line numbers
+#+begin_src emacs-lisp :tangle yes
+(add-hook 'org-mode-hook (lambda () (interactive) (display-line-numbers-mode 0) (+zen/toggle)))
+#+end_src
+
+#+begin_src emacs-lisp :tangle yes
+(defun jan/length (list)
+  (if (list)
+      (+ 1 (jan/length (cdr list)))
+    (+ 0 1)))
+#+end_src
+
+*** Bullets
+This adds the nice header bullets with =org-bullets=
+#+begin_src emacs-lisp :tangle yes
+(use-package! org-bullets
+  :hook (org-mode . org-bullets-mode)
+  :custom
+  (org-bullets-bullet-list '("◉" "○" "●" "○" "●" "○" "●")))
+#+end_src
+*** =org-roam-ui=
+#+begin_src emacs-lisp :tangle yes
+(use-package! websocket
+  :after org-roam)
+
+(use-package! org-roam-ui
+  :after org-roam
+  :config
+  (setq org-roam-sync-ui-theme t
+        org-roam-ui-follow t
+        org-roam-ui-update-on-save t
+        org-roam-ui-open-on-start t))
+#+end_src
+* Tools
+** =restart-emacs=
+This adds the =restart-emacs= package to my Doom Emacs configuration. This
+allows me to restart an Emacs server, in case I need to reload configurations
+or what not
+#+begin_src emacs-lisp :tangle yes
+(use-package! restart-emacs
+  :init
+  (setq restart-emacs-restore-frames t))
+
+(after! restart-emacs
+  (map! :leader
+        :desc "Restart the current Emacs server"
+        "r R" #'restart-emacs))
+#+end_src
+** =no-littering=
+#+begin_src emacs-lisp :tangle yes
+(use-package! no-littering)
+
+(setq auto-save-file-name-transforms
+      `((".*" ,(no-littering-expand-var-file-name "auto-save") t)))
+#+end_src
+** =dashboard=
+I like the normal emacs-dashboard a bit better than the Doom one, so I want to change it to that
+#+begin_src emacs-lisp :tangle yes
+(use-package! dashboard
+  :config
+  (dashboard-setup-startup-hook))
+(after! dashboard
+  (setq dashboard-banner-logo-title "Remember: Imogen needs shopping money"
+        dashboard-center-content t
+        dashboard-items '((recents . 5)
+                          (agenda . 10))
+        dashboard-set-file-icons t
+        dashboard-set-heading-icons t
+        dashboard-modify-heading-icons '((recents . "file-text")
+                                         (agenda . "book"))
+        dashboard-startup-banner "~/images/cute-cat-1.gif"))
+#+end_src
