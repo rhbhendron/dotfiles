@@ -1,0 +1,5 @@
+#+TITLE: Guix
+
+* Introduction
+This is an org-mode file that will contain most of the configurations I use for my GNU Guix
+operating system setup.
