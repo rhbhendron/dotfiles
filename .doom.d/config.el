@@ -18,8 +18,7 @@
   (require 'org-tempo)
 
   (add-to-list 'org-structure-template-alist '("sh" . "src shell"))
-  (add-to-list 'org-structure-template-alist '("el" . "src emacs-lisp"))
-  (add-to-list 'org-structure-template-alist '("scm" . "src scheme")))
+  (add-to-list 'org-structure-template-alist '("el" . "src emacs-lisp")))
 
 (after! org
   (setq org-directory "~/Org"
