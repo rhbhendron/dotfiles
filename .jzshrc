@@ -7,7 +7,7 @@
 
 export EDITOR="emacsclient -t -a 'emacs --daemon'"
 
-alias xcpy="xclip -selection clipboard <"
+alias xcpy="xclip -selection clipboard"
 alias emacst="emacsclient -t"
 alias emacsc="emacsclient -c"
 alias dwm_compile="working_dir=$(pwd) && cd ~/.config/dwm && sudo make install && cd $working_dir"
