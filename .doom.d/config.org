@@ -6,7 +6,7 @@
 Because I use the Emacs daemon on startup, I have to ensure that it will pick the dashboard to start
 with, so I add this
 #+begin_src emacs-lisp
-(setq initial-buffer-choice (lambda () (get-buffer "*dashboard*")))
+;; (setq initial-buffer-choice (lambda () (get-buffer "*dashboard*")))
 #+end_src
 ** Font TODO Add some more fonts
 I will set my font to Iosevka, cause I really really like it
@@ -126,17 +126,22 @@ or what not
 ** =dashboard=
 I like the normal emacs-dashboard a bit better than the Doom one, so I want to change it to that
 #+begin_src emacs-lisp
-(use-package! dashboard
-  :config
-  (dashboard-setup-startup-hook))
-(after! dashboard
-  (setq dashboard-banner-logo-title "Remember: Imogen needs shopping money"
-        dashboard-center-content t
-        dashboard-items '((recents . 5)
-                          (agenda . 10))
-        dashboard-set-file-icons t
-        dashboard-set-heading-icons t
-        dashboard-modify-heading-icons '((recents . "file-text")
-                                         (agenda . "book"))
-        dashboard-startup-banner "~/images/cute-cat-1.gif"))
+;; (use-package! dashboard
+;;   :config
+;;   (dashboard-setup-startup-hook))
+;; (after! dashboard
+;;   (setq dashboard-banner-logo-title "Remember: Imogen needs shopping money"
+;;         dashboard-center-content t
+;;         dashboard-items '((recents . 5)
+;;                           (agenda . 10))
+;;         dashboard-set-file-icons t
+;;         dashboard-set-heading-icons t
+;;         dashboard-modify-heading-icons '((recents . "file-text")
+;;                                          (agenda . "book"))
+;;         dashboard-startup-banner "~/images/cute-cat-1.gif"))
+#+end_src
+
+** LSP
+#+begin_src emacs-lisp
+(setq-hook! 'c-mode-hook +format-with :none)
 #+end_src

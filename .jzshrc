@@ -1,0 +1,17 @@
+#!/usr/bin/zshrc
+#
+# Jan's Zsh Customizations
+#
+
+# Aliases
+
+export EDITOR="emacsclient -t -a 'emacs --daemon'"
+
+alias xcpy="xclip -selection clipboard"
+alias emacst="emacsclient -t"
+alias emacsc="emacsclient -c"
+alias dwm_compile="working_dir=$(pwd) && cd ~/.config/dwm && sudo make install && cd $working_dir"
+alias dwm_config="emacsclient -t $HOME/.config/dwm/config.h"
+
+bindkey -v
+neofetch

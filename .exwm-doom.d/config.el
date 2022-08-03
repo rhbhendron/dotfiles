@@ -1,4 +1,4 @@
-;; (setq initial-buffer-choice (lambda () (get-buffer "*dashboard*")))
+(setq initial-buffer-choice (lambda () (get-buffer "*dashboard*")))
 
 (setq doom-font (font-spec :family "Iosevka" :size 15 :weight 'medium))
 (setq doom-variable-pitch-font (font-spec :family "Iosevka Aile" :size 15 :weight 'medium))
@@ -72,18 +72,16 @@
 (setq auto-save-file-name-transforms
       `((".*" ,(no-littering-expand-var-file-name "auto-save") t)))
 
-;; (use-package! dashboard
-;;   :config
-;;   (dashboard-setup-startup-hook))
-;; (after! dashboard
-;;   (setq dashboard-banner-logo-title "Remember: Imogen needs shopping money"
-;;         dashboard-center-content t
-;;         dashboard-items '((recents . 5)
-;;                           (agenda . 10))
-;;         dashboard-set-file-icons t
-;;         dashboard-set-heading-icons t
-;;         dashboard-modify-heading-icons '((recents . "file-text")
-;;                                          (agenda . "book"))
-;;         dashboard-startup-banner "~/images/cute-cat-1.gif"))
-
-(setq-hook! 'c-mode-hook +format-with :none)
+(use-package! dashboard
+  :config
+  (dashboard-setup-startup-hook))
+(after! dashboard
+  (setq dashboard-banner-logo-title "Remember: Imogen needs shopping money"
+        dashboard-center-content t
+        dashboard-items '((recents . 5)
+                          (agenda . 10))
+        dashboard-set-file-icons t
+        dashboard-set-heading-icons t
+        dashboard-modify-heading-icons '((recents . "file-text")
+                                         (agenda . "book"))
+        dashboard-startup-banner "~/images/cute-cat-1.gif"))
